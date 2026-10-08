@@ -1,4 +1,3 @@
-YAML
 name: Build TWRP for Samsung Galaxy A02
 
 on:
@@ -24,10 +23,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y ccache git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 libtinfo5 libncurses-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip bc python2 python2-dev 2to3 || true
-        # Python komutunu kesin olarak Python 2.7'ye bağla
-        sudo ln -sf /usr/bin/python2 /usr/bin/python
-        sudo ln -sf /usr/bin/python2 /usr/bin/python2.7
-        # Clang kütüphane sembolik bağları
+        sudo ln -sf /usr/bin/python2 /usr/bin/python || true
+        sudo ln -sf /usr/bin/python2 /usr/bin/python2.7 || true
         sudo ln -sf /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 || true
         sudo ln -sf /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 || true
 
@@ -49,7 +46,6 @@ jobs:
       run: |
         cd twrp
         git clone https://github.com/twrpdtgen/android_device_samsung_a02.git device/samsung/a02
-        # Tüm Python scriptlerinde print deyimini parantez içine al
         find . -type f -name "*.py" -exec 2to3 -w -n {} + || true
 
     - name: Build TWRP Image
